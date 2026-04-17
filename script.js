@@ -245,15 +245,43 @@
 
 /*ASYNC AWAIT EXAMPLES */
 
-function delay(){
-    return new Promise((resolve) => {
-        setTimeout(() => resolve("Done!"), 1000);
-    });
+// function delay(){
+//     return new Promise((resolve) => {
+//         setTimeout(() => resolve("Done!"), 1000);
+//     });
+// }
+
+// async function run() {
+//     const result = await delay();
+//     console.log(result);
+// }
+
+// run();
+
+
+
+
+/*CUSTOM EVENT EMMITTER*/
+
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+
+  on(event, listener) {
+    (this.events[event] ||= []).push(listener);
+  }
+
+  emit(event, data) {
+    (this.events[event] || []).forEach(fn => fn(data));
+  }
 }
 
-async function run() {
-    const result = await delay();
-    console.log(result);
-}
+// Usage
+const emitter = new EventEmitter();
 
-run();
+emitter.on("greet", (name) => {
+  console.log(`Hello, ${name}`);
+});
+
+emitter.emit("greet", "Anish");
